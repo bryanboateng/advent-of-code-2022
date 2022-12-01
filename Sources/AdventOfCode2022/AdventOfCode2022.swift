@@ -1,6 +1,8 @@
+import Algorithms
 import ArgumentParser
 import Foundation
-import RegexBuilder
+
+typealias Algorithm = (_ input: String) -> Any
 
 @main
 struct AdventOfCode2022: ParsableCommand {
@@ -8,48 +10,20 @@ struct AdventOfCode2022: ParsableCommand {
 	@Argument var day: Int
 
 	func run() throws {
-		let inputFilePathPattern = Regex {
-			"/day-\(day.formatted(.number.precision(.integerLength(2))))-"
-			Capture {
-				OneOrMore(.digit)
-			}
-			".txt"
-		}
-		let results = Bundle.module.paths(forResourcesOfType: "txt", inDirectory: nil)
-			.compactMap { path in
-				guard let match = path.firstMatch(of: inputFilePathPattern) else { return nil }
-				return (String(match.1), path)
-			}
-			.map { (index: String, path: String) -> (String, Any) in
-				let input = try! String(contentsOf: URL(fileURLWithPath: String(path)))
-				return (index, adventOfCode()[day]!(input))
-			}
-			.sorted {
-				Int($0.0)! < Int($1.0)!
-			}
-			.map {
-				let (index, result) = $0
-				return "\(index): \(result)"
-			}
-			.joined(separator: "\n")
+		let inputFileURL = Bundle.module.url(forResource: "day-\(day.formatted(.number.precision(.integerLength(2))))", withExtension: "txt")!
+		let input = try! String(contentsOf: inputFileURL)
+		let algorithms = adventOfCode()[day]!
+		let results =
+		"""
+		Part 1: \(algorithms.0(input))
+		Part 2: \(algorithms.1(input))
+		"""
 		print("Day \(day)\n\(results)")
 	}
 }
 
-func adventOfCode() -> [Int: (String) -> Any] {
-	var algorithms: [Int: (String) -> Any] = [:]
-	algorithms[1] = { (input: String) -> Int in
-		return input
-			.split(separator: "\n\n")
-			.map {
-				$0
-					.split(separator: "\n")
-					.map {
-						Int($0)!
-					}
-					.reduce(0, +)
-			}
-			.max()!
-	}
+func adventOfCode() -> [Int: (Algorithm, Algorithm)] {
+	var algorithms: [Int: (Algorithm, Algorithm)] = [:]
+	algorithms[1] = day01
 	return algorithms
 }
