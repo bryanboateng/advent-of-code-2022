@@ -20,7 +20,7 @@ struct AdventOfCode2022: ParsableCommand {
 				guard let match = path.firstMatch(of: inputFilePathPattern) else { return nil }
 				return (String(match.1), path)
 			}
-			.map { (index: String, path: String) -> (String, String) in
+			.map { (index: String, path: String) -> (String, Any) in
 				let input = try! String(contentsOf: URL(fileURLWithPath: String(path)))
 				return (index, adventOfCode()[day]!(input))
 			}
@@ -36,10 +36,20 @@ struct AdventOfCode2022: ParsableCommand {
 	}
 }
 
-func adventOfCode() -> [Int: (String) -> String] {
-	var algorithms: [Int: (String) -> String] = [:]
-	algorithms[1] = { (input: String) -> String in
-		return "Lorem Ipsum"
+func adventOfCode() -> [Int: (String) -> Any] {
+	var algorithms: [Int: (String) -> Any] = [:]
+	algorithms[1] = { (input: String) -> Int in
+		return input
+			.split(separator: "\n\n")
+			.map {
+				$0
+					.split(separator: "\n")
+					.map {
+						Int($0)!
+					}
+					.reduce(0, +)
+			}
+			.max()!
 	}
 	return algorithms
 }
