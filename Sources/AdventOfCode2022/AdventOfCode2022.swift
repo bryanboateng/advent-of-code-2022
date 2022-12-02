@@ -9,7 +9,14 @@ struct AdventOfCode2022: ParsableCommand {
 	@Argument var day: Int
 
 	func run() throws {
-		let inputFileURL = Bundle.module.url(forResource: "day-\(day.formatted(.number.precision(.integerLength(2))))", withExtension: "txt")!
+		guard let inputFileURL = Bundle.module
+			.url(
+				forResource: "day-\(day.formatted(.number.precision(.integerLength(2))))",
+				withExtension: "txt"
+			)
+		else {
+			fatalError("No input file found.")
+		}
 		let input = try! String(contentsOf: inputFileURL)
 		let algorithms = adventOfCode()[day]!
 		let results =
