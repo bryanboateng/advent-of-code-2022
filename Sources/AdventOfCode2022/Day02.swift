@@ -1,5 +1,3 @@
-import Algorithms
-
 let day02: (Algorithm, Algorithm) = (part1, part2)
 
 private let part1: Algorithm = { input in
