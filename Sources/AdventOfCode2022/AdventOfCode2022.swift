@@ -1,7 +1,7 @@
 import ArgumentParser
 import Foundation
 
-typealias Algorithm = (_ input: String) -> Any
+typealias Algorithm = (String) -> Any
 
 @main
 struct AdventOfCode2022: ParsableCommand {
