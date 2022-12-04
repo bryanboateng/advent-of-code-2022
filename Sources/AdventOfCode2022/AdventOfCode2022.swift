@@ -33,5 +33,6 @@ func adventOfCode() -> [Int: (Algorithm, Algorithm)] {
 	algorithms[1] = day01
 	algorithms[2] = day02
 	algorithms[3] = day03
+	algorithms[4] = day04
 	return algorithms
 }
