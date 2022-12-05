@@ -18,7 +18,7 @@ struct AdventOfCode2022: ParsableCommand {
 			fatalError("No input file found.")
 		}
 		let input = try! String(contentsOf: inputFileURL)
-		let algorithms = adventOfCode()[day]!
+		let algorithms = adventOfCode()[day-1]
 		let results =
 		"""
 		Part 1: \(algorithms.0(input))
@@ -28,12 +28,31 @@ struct AdventOfCode2022: ParsableCommand {
 	}
 }
 
-func adventOfCode() -> [Int: (Algorithm, Algorithm)] {
-	var algorithms: [Int: (Algorithm, Algorithm)] = [:]
-	algorithms[1] = day01
-	algorithms[2] = day02
-	algorithms[3] = day03
-	algorithms[4] = day04
-	algorithms[5] = day05
-	return algorithms
+func adventOfCode() -> [(Algorithm, Algorithm)] {
+	return [
+		day01,
+		day02,
+		day03,
+		day04,
+		day05,
+		day06,
+		day07,
+		day08,
+		day09,
+		day10,
+		day11,
+		day12,
+		day13,
+		day14,
+		day15,
+		day16,
+		day17,
+		day18,
+		day19,
+		day20,
+		day21,
+		day22,
+		day23,
+		day24
+	]
 }
